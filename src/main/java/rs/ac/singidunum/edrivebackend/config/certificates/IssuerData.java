@@ -1,0 +1,17 @@
+package rs.ac.singidunum.edrivebackend.config.certificates;
+
+import lombok.Data;
+
+@Data
+public class IssuerData {
+    private String commonName;
+    private String orgUnit;
+    private String org;
+    private String locality;
+    private String state;
+    private String country;
+
+    public String toX500Principal() {
+        return String.format("CN=%s, OU=%s, O=%s, L=%s, ST=%s, C=%s",commonName, orgUnit, org, locality, state, country);
+    }
+}

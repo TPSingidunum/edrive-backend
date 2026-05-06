@@ -11,3 +11,28 @@ spring:
       ddl-auto: update
     show-sql: true
     open-in-view: false
+
+certificate:
+  main:
+    path: certs/main/cert.pem
+    key-path: certs/main/key.pem
+    duration: 3650
+    issuer:
+      common-name: Singidunum CA
+      org-unit: KIBP
+      org: Singidunum
+      locality: Belgrade
+      state: RS
+      country: RS
+
+  inter:
+    path: certs/inter/cert.pem
+    key-path: certs/inter/key.pem
+    duration: 3650
+    issuer:
+      common-name: Singidunum Intermediate
+      org-unit: KIBP
+      org: Singidunum
+      locality: Belgrade
+      state: RS
+      country: RS
