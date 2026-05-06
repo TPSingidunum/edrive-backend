@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: edrive-backend
+  datasource:
+    url: jdbc:mysql://localhost:3306/edrive
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
