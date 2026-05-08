@@ -12,6 +12,13 @@ spring:
     show-sql: true
     open-in-view: false
 
+# In minutes
+security:
+  jwt:
+    secret: 218ff189baacccb10e29d4f7ab95cc2a629f9981e486f3a27e9b7028eb75d1e1
+    access-token-duration: 10
+    refresh-token-duration: 10080
+
 encryption:
   rsa-key-size: 4096
   aes-key-size: 256
