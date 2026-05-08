@@ -12,6 +12,14 @@ spring:
     show-sql: true
     open-in-view: false
 
+encryption:
+  rsa-key-size: 4096
+  aes-key-size: 256
+  gcm-tag-size: 128
+  iv-size: 96
+  algorithm: AES/GCM/NoPadding
+  chunk-size: 4096
+
 certificate:
   main:
     path: certs/main/cert.pem
@@ -28,7 +36,7 @@ certificate:
   inter:
     path: certs/inter/cert.pem
     key-path: certs/inter/key.pem
-    duration: 3650
+    duration: 365
     issuer:
       common-name: Singidunum Intermediate
       org-unit: KIBP

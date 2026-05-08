@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "encryption")
 public class EncryptionProperties {
-    private String rsaKeySize;
-    private String aesSeySize;
-    private String gcmTagSize;
-    private String ivSize;
+    private int rsaKeySize;
+    private int aesSeySize;
+    private int gcmTagSize;
+    private int ivSize;
     private String algorithm;
-    private String chunkSize;
+    private int chunkSize;
 }

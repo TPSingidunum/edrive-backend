@@ -9,16 +9,12 @@ import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
 import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
 import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.springframework.stereotype.Component;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.file.Path;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -90,23 +86,9 @@ public class CertificateService {
                 .getCertificate(builder.build(signer));
     }
 
-    public KeyPair generateRSAKeys(int keyLength) throws NoSuchAlgorithmException {
-        KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
-        kpg.initialize(keyLength, new SecureRandom());
-        return kpg.generateKeyPair();
-    }
-
     private BigInteger generateSerialNumber() {
         byte[] bytes = new byte[16];
         new SecureRandom().nextBytes(bytes);
         return new BigInteger(bytes).abs();
-    }
-
-    public void writePem(Path target, Object object) {
-        try(JcaPEMWriter pw = new JcaPEMWriter(new FileWriter(target.toFile()))) {
-            pw.writeObject(object);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
