@@ -27,7 +27,7 @@ certificate:
     duration: 3650
     issuer:
       common-name: Singidunum CA
-      org-unit: KIBP
+      org-unit: ZIS
       org: Singidunum
       locality: Belgrade
       state: RS
@@ -39,7 +39,7 @@ certificate:
     duration: 365
     issuer:
       common-name: Singidunum Intermediate
-      org-unit: KIBP
+      org-unit: ZIS
       org: Singidunum
       locality: Belgrade
       state: RS

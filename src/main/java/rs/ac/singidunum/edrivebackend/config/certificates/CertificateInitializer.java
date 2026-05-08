@@ -27,6 +27,12 @@ public class CertificateInitializer implements ApplicationRunner {
     private final MainCertProperties mainCertProperties;
     private final InterCertProperties interCertProperties;
 
+    // Certs properties
+    private KeyPair mainKP;
+    private KeyPair interKP;
+    private X509Certificate mainCert;
+    private X509Certificate interCert;
+
     static {
         Security.addProvider(new BouncyCastleProvider());
     }
@@ -34,29 +40,31 @@ public class CertificateInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        KeyPair mainKP = encryptionService.generateRSAKeyPair();
-        X509Certificate mainCert = certificateService.generateMainCertificate(mainKP, mainCertProperties);
-
-        KeyPair interKP = encryptionService.generateRSAKeyPair();
-        X509Certificate interCert = certificateService.generateInterCertificate(interKP, mainKP, mainCert, interCertProperties, mainCertProperties);
-
         Path mainCertPath = Path.of(mainCertProperties.getPath());
         Path interCertPath = Path.of(interCertProperties.getPath());
 
         if (Files.notExists(mainCertPath)) {
             Files.createDirectories(mainCertPath.getParent());
+
+            // Generating Main Cert
+            mainKP = encryptionService.generateRSAKeyPair();
+            mainCert = certificateService.generateMainCertificate(mainKP, mainCertProperties);
+
+            // Main Certificates
+            encryptionService.writePem(mainCertPath, mainCert);
+            encryptionService.writePem(Path.of(mainCertProperties.getKeyPath()), mainKP.getPrivate());
         }
 
         if (Files.notExists(interCertPath)) {
             Files.createDirectories(interCertPath.getParent());
+
+            // Generating Main Cert
+            interKP = encryptionService.generateRSAKeyPair();
+            interCert = certificateService.generateInterCertificate(interKP, mainKP, mainCert, interCertProperties, mainCertProperties);
+
+            // Inter Certificates
+            encryptionService.writePem(interCertPath, interCert);
+            encryptionService.writePem(Path.of(interCertProperties.getKeyPath()), interKP.getPrivate());
         }
-
-        // Main Certificates
-        encryptionService.writePem(mainCertPath, mainCert);
-        encryptionService.writePem(Path.of(mainCertProperties.getKeyPath()), mainKP.getPrivate());
-
-        // Inter Certificates
-        encryptionService.writePem(interCertPath, interCert);
-        encryptionService.writePem(Path.of(interCertProperties.getKeyPath()), interKP.getPrivate());
     }
 }
