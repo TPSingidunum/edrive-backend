@@ -18,11 +18,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class JwtService {
     private final JwtProperties jwtProperties;
-    private SecretKey secretKey;
+    private SecretKey accessSecretKey;
+    private SecretKey refreshSecretKey;
 
     @PostConstruct
     public void init() {
-        secretKey = Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8));
+        accessSecretKey = Keys.hmacShaKeyFor(jwtProperties.getAccessTokenSecret().getBytes(StandardCharsets.UTF_8));
+        refreshSecretKey = Keys.hmacShaKeyFor(jwtProperties.getRefreshTokenSecret().getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateToken(String subject, Map<String, Object> claims) {
@@ -31,7 +33,7 @@ public class JwtService {
                .claims(claims)
                .issuedAt(Date.from(Instant.now()))
                .expiration(generateExpirationDate(claims.get("type").toString()))
-               .signWith(secretKey)
+               .signWith(claims.get("type").toString().equals("access") ? accessSecretKey : refreshSecretKey)
                .compact();
     }
 
@@ -44,7 +46,7 @@ public class JwtService {
     }
 
     public Claims extractClaimsFromToken(String token) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
+        return Jwts.parser().verifyWith(accessSecretKey).build().parseSignedClaims(token).getPayload();
     }
 
 }

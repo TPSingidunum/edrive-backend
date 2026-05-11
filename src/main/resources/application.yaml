@@ -15,7 +15,8 @@ spring:
 # In minutes
 security:
   jwt:
-    secret: 218ff189baacccb10e29d4f7ab95cc2a629f9981e486f3a27e9b7028eb75d1e1
+    access-token-secret: 218ff189baacccb10e29d4f7ab95cc2a629f9981e486f3a27e9b7028eb75d1e1
+    refresh-token-secret: 543db37a5970ea4769401536da421e294f03cecc43dc1b2e6c6c12c16aa88981
     access-token-duration: 10
     refresh-token-duration: 10080
 

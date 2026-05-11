@@ -1,6 +1,7 @@
 package rs.ac.singidunum.edrivebackend.services;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +12,8 @@ import rs.ac.singidunum.edrivebackend.config.security.PasswordEncryption;
 import rs.ac.singidunum.edrivebackend.dtos.auth.RegisterUserDto;
 import rs.ac.singidunum.edrivebackend.entities.User;
 import rs.ac.singidunum.edrivebackend.repositories.UserRepository;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,5 +35,9 @@ public class UserService {
         user.setPassword(passwordEncryption.getPasswordEncoder().encode(data.getPassword()));
 
         userRepository.save(user);
+    }
+
+    public Optional<User> getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }
